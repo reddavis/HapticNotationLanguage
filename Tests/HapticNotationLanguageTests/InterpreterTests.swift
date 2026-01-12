@@ -224,8 +224,8 @@ struct InterpreterTests {
         let tokens = try lexer.scan()
         var parser = Parser(tokens: tokens)
         let nodes = try parser.parse()
-        let interpreter = Interpreter()
-        return try interpreter.interpret(nodes)
+        let interpreter = Interpreter(nodes: nodes)
+        return try interpreter.interpret()
     }
 
     private func expectTime(_ actual: TimeInterval, _ expected: TimeInterval) {
