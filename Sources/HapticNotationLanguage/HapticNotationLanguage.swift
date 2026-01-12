@@ -7,7 +7,7 @@ public struct HapticNotationLanguage {
         var parser = Parser(tokens: tokens)
         let nodes = try parser.parse()
 
-        let interpreter = Interpreter(nodes: nodes
+        let interpreter = Interpreter(nodes: nodes)
         let pattern = try interpreter.interpret()
         return try CHHapticPattern(pattern)
     }
