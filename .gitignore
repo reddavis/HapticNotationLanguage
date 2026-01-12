@@ -1,0 +1,25 @@
+.DS_Store
+tmp
+.env
+
+# Xcode user data and project settings
+**/xcuserdata
+.build/
+**/*.xcuserstate
+.swiftpm/**
+
+# Derived data and build artefacts
+**/DerivedData
+**/*.moved-aside
+
+# IDE files
+.idea/
+**/*.hmap
+
+# Swift Package Manager and build cache
+BuildTools/.build
+BuildTools/.swiftpm
+
+# Misc
+profile.txt
+i18n.cache
