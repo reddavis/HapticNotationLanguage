@@ -13,6 +13,7 @@ enum Token: Equatable {
     case sharpness
     case interval
     case adsr
+    case curve
 
     // Intensity aliases
     case silent
@@ -26,7 +27,14 @@ enum Token: Equatable {
     case balanced
     case sharp
 
+    // Timing curve aliases
+    case linear
+    case easeInOut
+    case easeIn
+    case easeOut
+
     // Literals
+    case curveValue(Double, Double, Double, Double)
     case intensityValue(Float)
     case sharpnessValue(Float)
     case number(Double)

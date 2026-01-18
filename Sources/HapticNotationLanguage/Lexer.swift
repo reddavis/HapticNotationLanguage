@@ -225,6 +225,8 @@ struct Lexer {
             return .interval
         case "adsr":
             return .adsr
+        case "curve":
+            return .curve
 
         // Intensity aliases
         case "silent":
@@ -245,6 +247,21 @@ struct Lexer {
             return .balanced
         case "sharp":
             return .sharp
+
+        // Curve aliases
+        case "linear":
+            return .linear
+        case "ease-in":
+            return .easeIn
+        case "ease-out":
+            return .easeOut
+        case "ease-in-out":
+            return .easeInOut
+
+        // Cubic
+        case "cubic":
+            return // TODO: pick up from here scanCubicCurve
+
         default:
             return .identifier(lexeme)
         }
