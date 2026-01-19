@@ -113,7 +113,7 @@ enum Fixture {
         ramp 1s:
           intensity: soft > max
           sharpness: dull > sharp
-          curve: ease-in-out
+          curve: easeInOut
         """
 
     static let rampPartial = """

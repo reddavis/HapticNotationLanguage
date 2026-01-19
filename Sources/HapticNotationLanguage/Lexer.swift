@@ -131,7 +131,7 @@ struct Lexer {
             if character.isWholeNumber {
                 return try scanNumber(isPreviousCharacterDot: false)
             } else if character.isLetter {
-                return scanIdentifier()
+                return try scanIdentifier()
             } else {
                 throw LexerError(
                     lexeme: currentLexeme,
@@ -176,7 +176,7 @@ struct Lexer {
         }
     }
 
-    private mutating func scanIdentifier() -> Token {
+    private mutating func scanIdentifier() throws -> Token {
         let firstChar = source[startIndex]
 
         if (firstChar == "i" || firstChar == "s") && peek?.isWholeNumber == true {
@@ -251,20 +251,72 @@ struct Lexer {
         // Curve aliases
         case "linear":
             return .linear
-        case "ease-in":
+        case "easeIn":
             return .easeIn
-        case "ease-out":
+        case "easeOut":
             return .easeOut
-        case "ease-in-out":
+        case "easeInOut":
             return .easeInOut
 
         // Cubic
         case "cubic":
-            return // TODO: pick up from here scanCubicCurve
+            return try scanCubicCurve()
 
         default:
             return .identifier(lexeme)
         }
+    }
+
+    private mutating func scanCubicCurve() throws -> Token {
+        guard peek == "(" else {
+            throw LexerError(
+                lexeme: currentLexeme,
+                span: currentSpan,
+                type: .expectedCharacter("("),
+            )
+        }
+        consume()
+
+        var values: [Double] = []
+        while values.count < 4 {
+            consumeWhitespace()
+
+            let numberStartIndex = currentIndex
+            while peek?.isWholeNumber == true || peek == "." || peek == "-" {
+                consume()
+            }
+
+            guard let value = Double(String(source[numberStartIndex..<currentIndex])) else {
+                throw LexerError(
+                    lexeme: currentLexeme,
+                    span: currentSpan,
+                    type: .invalidCubicValue,
+                )
+            }
+            values.append(value)
+
+            if values.count < 4 {
+                guard peek == "," else {
+                    throw LexerError(
+                        lexeme: currentLexeme,
+                        span: currentSpan,
+                        type: .expectedCharacter(","),
+                    )
+                }
+                consume()
+            }
+        }
+
+        guard peek == ")" else {
+            throw LexerError(
+                lexeme: currentLexeme,
+                span: currentSpan,
+                type: .expectedCharacter(")"),
+            )
+        }
+        consume()
+
+        return .curveValue(values[0], values[1], values[2], values[3])
     }
 
     // MARK: Helpers
@@ -307,6 +359,12 @@ struct Lexer {
         }
         return count
     }
+
+    private mutating func consumeWhitespace() {
+        while peek == " " {
+            consume()
+        }
+    }
 }
 
 struct LexerError: Error, Equatable {
@@ -315,7 +373,9 @@ struct LexerError: Error, Equatable {
     let type: ErrorType
 
     enum ErrorType: Equatable {
+        case expectedCharacter(Character)
         case inconsistentIndentation(found: Int, expected: Int)
+        case invalidCubicValue
         case invalidNumber
         case unexpectedCharacter(Character)
     }
