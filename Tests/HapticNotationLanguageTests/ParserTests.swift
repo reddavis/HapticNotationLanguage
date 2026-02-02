@@ -309,7 +309,8 @@ struct ParserTests {
                     duration: 2,
                     intensity: Transition(from: .value(0.3), to: .value(1.0)),
                     sharpness: Transition(from: .value(0.2), to: .value(0.8)),
-                    interval: Transition(from: 0.2, to: 0.05)
+                    interval: Transition(from: 0.2, to: 0.05),
+                    curve: .value(0.42, 0, 0.58, 1),
                 ),
             ]
         )
@@ -329,7 +330,8 @@ struct ParserTests {
                     duration: 1,
                     intensity: Transition(from: .soft, to: .max),
                     sharpness: Transition(from: .dull, to: .sharp),
-                    interval: nil
+                    interval: nil,
+                    curve: .easeInOut,
                 ),
             ]
         )
@@ -349,7 +351,8 @@ struct ParserTests {
                     duration: 1,
                     intensity: Transition(from: .silent, to: .loud),
                     sharpness: nil,
-                    interval: nil
+                    interval: nil,
+                    curve: nil,
                 ),
             ]
         )

@@ -107,7 +107,7 @@ struct Interpreter {
                 endTime: startTime + Double(count) * iterationLength,
             )
 
-        case .ramp(let duration, let intensity, let sharpness, let interval):
+        case .ramp(let duration, let intensity, let sharpness, let interval, _):
             var events: [CHHapticEvent] = []
             var currentTime: TimeInterval = 0
 

@@ -31,6 +31,7 @@ indirect enum Node: Equatable {
         intensity: Transition<Intensity>?,
         sharpness: Transition<Sharpness>?,
         interval: Transition<TimeInterval>?,
+        curve: TimingCurve?,
     )
 
     case define(
@@ -99,4 +100,12 @@ struct ADSR: Equatable {
     let decay: Double
     let sustain: Double
     let release: Double
+}
+
+enum TimingCurve: Equatable {
+    case linear
+    case easeInOut
+    case easeIn
+    case easeOut
+    case value(Double, Double, Double, Double)
 }
