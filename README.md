@@ -257,6 +257,7 @@ ramp 2s:
   intensity: 0.3 > 1.0
   sharpness: 0.2 > 0.8
   interval: 0.2s > 0.05s
+  curve: cubic(0.42, 0, 0.58, 1)
 ```
 
 | Parameter | Description |
@@ -264,6 +265,7 @@ ramp 2s:
 | `intensity` | Start > end intensity (0.0–1.0 or aliases) |
 | `sharpness` | Start > end sharpness (0.0–1.0 or aliases) |
 | `interval` | Start > end time between pulses |
+| `curve` | Easing curve applied to ramp interpolation |
 
 ### Using Aliases
 
@@ -271,7 +273,22 @@ ramp 2s:
 ramp 1s:
   intensity: soft > max
   sharpness: dull > sharp
+  curve: easeIn
 ```
+
+### Curves
+
+Ramps can optionally specify a **curve** that controls how values interpolate over time.
+
+The default value is `linear`. 
+
+| Curve | Description |
+|------|-------------|
+| `linear` | Constant rate (default) |
+| `easeIn` | Starts slow, accelerates |
+| `easeOut` | Starts fast, decelerates |
+| `easeInOut` | Slow → fast → slow |
+| `cubic(x1, y1, x2, y2)` | Custom cubic Bézier timing curve |
 
 ### Partial Ramps
 
@@ -282,13 +299,14 @@ ramp 1s:
   intensity: silent > loud
 ```
 
-If ommitted, the default values are:
+If omitted, the default values are:
 
 | Parameter | Default value |
 |-----------|-------------|
 | `intensity` | 0.5 |
 | `sharpness` | 0.5 |
 | `interval` | 0.1 |
+| `curve` | linear |
 
 ---
 
