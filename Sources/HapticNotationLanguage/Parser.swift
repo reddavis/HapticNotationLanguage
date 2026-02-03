@@ -213,6 +213,7 @@ struct Parser {
         var intensity: Transition<Intensity>?
         var sharpness: Transition<Sharpness>?
         var interval: Transition<TimeInterval>?
+        var curve: TimingCurve?
 
         while peek != .dedent && !isAtEnd {
             skipNewlinesAndComments()
@@ -243,6 +244,29 @@ struct Parser {
                 let end = try parseTime()
                 interval = Transition(from: start, to: end)
 
+            case .curve:
+                advance()
+                try consume(.colon)
+                switch peek {
+                case .linear:
+                    curve = .linear
+                    advance()
+                case .easeInOut:
+                    curve = .easeInOut
+                    advance()
+                case .easeIn:
+                    curve = .easeIn
+                    advance()
+                case .easeOut:
+                    curve = .easeOut
+                    advance()
+                case .curveValue(let x1, let y1, let x2, let y2):
+                    curve = .value(x1, y1, x2, y2)
+                    advance()
+                default:
+                    throw ParserError.unexpectedToken(peek)
+                }
+
             default:
                 throw ParserError.unexpectedToken(peek)
             }
@@ -256,6 +280,7 @@ struct Parser {
             intensity: intensity,
             sharpness: sharpness,
             interval: interval,
+            curve: curve,
         )
     }
 

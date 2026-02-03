@@ -164,11 +164,13 @@ struct InterpreterTests {
         let pattern = try parse(Fixture.rampFull)
 
         #expect(pattern.events.count > 0)
-        #expect(pattern.events[0].relativeTime == 0)
 
+        // First event
+        #expect(pattern.events[0].relativeTime == 0)
         #expect(pattern.events[0].intensity == 0.3)
         #expect(pattern.events[0].sharpness == 0.2)
 
+        // Last event
         let last = try #require(pattern.events.last)
         #expect(last.intensity == 1.0)
         #expect(last.sharpness == 0.8)
@@ -178,10 +180,12 @@ struct InterpreterTests {
         let pattern = try parse(Fixture.rampWithAliases)
 
         #expect(pattern.events.count > 0)
+
+        // First event
         #expect(pattern.events[0].intensity == 0.3)
         #expect(pattern.events[0].sharpness == 0.0)
 
-
+        // Last event
         let last = try #require(pattern.events.last)
         #expect(last.intensity == 1.0)
         #expect(last.sharpness == 1.0)

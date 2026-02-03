@@ -413,6 +413,10 @@ struct LexerTests {
                 .time(0.2),
                 .arrow,
                 .time(0.05),
+                .newline,
+                .curve,
+                .colon,
+                .curveValue(0.42, 0, 0.58, 1),
                 .dedent,
             ]
         )
@@ -442,6 +446,10 @@ struct LexerTests {
                 .dull,
                 .arrow,
                 .sharp,
+                .newline,
+                .curve,
+                .colon,
+                .easeInOut,
                 .dedent,
             ]
         )
